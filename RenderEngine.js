@@ -1,9 +1,21 @@
-//Fonts and drawing things to the canvas
+//Fonts and color enums
 var font = {
 	Small : "14px Helvetica",
 	Medium : "18px Helvetica",
 	Large : "24px Helvetica"
 };
+var color = {
+	Text : "#ffffff",//Standard text color
+	GrayText : "#aaaaaa",//Unselectable text color
+	BG : "#242424",//Background
+	Menu : "#242424",//Menu background (Might get replaced with images)
+	MenuSelect : "#484848",//Highlighting currently selected item on menus
+	MenuBorder : "#104410",//Border around the menu, might get replaced like above
+	Health : "#00aa00",//Health bar color and Heal numbers
+	Mana : "#0000aa",//Mana bar color and Regain mana numbers
+	Damage : "#aa0000"//Damage numbers color
+};
+
 var ctx=canvas.getContext('2d');
 ctx.textAlign = "left";
 ctx.textBaseline = "top";
@@ -15,18 +27,13 @@ spritesheet.img.onload = function() {
     spritesheet.ready = true;
 };
 spritesheet.img.src = 'sheet.png';
-
-//All of the base colors that are used and not in an image
-var color = {
-	Text : "#ffffff",
-	BG : "#242424",
-	Menu : "#242424",
-	MenuSelect : "#484848",
-	MenuBorder : "#124812",
-	Health : "#00aa00",
-	Mana : "#0000aa",
-	Damage : "#aa0000"
+//This following is reserved for a seperate image file for background images that go 400 x 300 for items
+//Like the title, win, and lose screens.
+var background = {img:new Image(),ready:false};
+background.img.onload = function() {
+    background.ready = true;
 };
+background.img.src = 'bgsheet.png';
 
 function render() {
 	//Background
@@ -39,6 +46,7 @@ function render() {
     	case "WORLD": renderWorld(); break;
     	case "BATTLE": renderBattle(); break;
     	case "LOST": renderLost(); break;
+    	case state.Menu : renderWorldMenu(); break;
     }
 };
 
@@ -53,33 +61,10 @@ function renderImage (s, x, y, xx, yy) {
 		ctx.drawImage(spritesheet.img, x, y, s, s, xx, yy, s, s);
 	}		
 };
-
-//Because one is the opposite of the other, I'm going to render them both at once since it's a 1 on 1 battle.
-function renderStats(e1, e2) {
-	ctx.fillStyle = color.Health;
-	ctx.fillRect(184,20,(-184*(e1.health/e1.maxhealth)),18);
-	ctx.fillRect(216,20,(184*(e2.health/e2.maxhealth)),18);
-	
-	ctx.fillStyle = color.Mana;
-	ctx.fillRect(160,38,(-160*(e1.mana/e1.maxmana)),18);
-	ctx.fillRect(240,38,(160*(e2.mana/e2.maxmana)),18);
-    
-    ctx.fillStyle = color.MenuBorder;
-    ctx.beginPath();
-    ctx.moveTo(190, 16);
-    ctx.lineTo(210, 16);
-    ctx.lineTo(240, 38);
-    ctx.lineTo(240, 56);
-    ctx.lineTo(160, 56);
-    ctx.lineTo(160, 38);
-    ctx.closePath();
-    ctx.fill();
-    
-    ctx.fillStyle = color.Text;
-    ctx.fillText((e1.health/e1.maxhealth)*100 + "%", 120, 20);
-    ctx.fillText((e1.mana/e1.maxmana)*100 + "%", 120, 40);
-    ctx.fillText((e2.health/e2.maxhealth)*100 + "%", 260, 20);
-    ctx.fillText((e2.mana/e2.maxmana)*100 + "%", 260, 40);
+function renderBackground (x, y) {
+	if (background.ready) {
+		ctx.drawImage(background.img, x*400, y*300, 400, 300, 0, 0, 400, 300)
+	}
 };
 
 function renderMap() {
@@ -116,35 +101,11 @@ function renderWorld() {
 		ctx.fillText("Press A", 200-20, 110);
 		ctx.font = font.Small;
 	}
-	
-	if (menuState > 0) {renderWorldMenu();}
-};
-
-function renderWorldMenu() {
-	ctx.fillStyle = color.MenuBorder;
-	ctx.fillRect(10, 10, 380, 280);
-	ctx.fillStyle = color.Menu;
-	ctx.fillRect(20, 20, 360, 260);
-	ctx.fillStyle = color.Text;	
-	
-	ctx.fillText("Health: " + hero.health + " / " + hero.maxhealth, 30, 30);
-	ctx.fillText("Mana: " + hero.mana + " / " + hero.maxmana, 30, 50);
-	ctx.fillText("Gold: " + hero.gold, 30, 70);
-	ctx.fillText("str: " + hero.strength, 30, 90);
-	ctx.fillText("dex: " + hero.dexterity, 30, 110);
-	ctx.fillText("agi: " + hero.agility, 30, 130);
-	
-	ctx.fillText("level: " + hero.level, 30, 150);
-	ctx.fillText("exp: " + hero.exp, 30, 170);
-	ctx.fillText("ap: " + hero.ap, 30, 190);
 };
 
 function renderTitle() {
-	ctx.font = font.Large;//Using this here for the title before I add it
-	ctx.fillStyle = color.Text;
-	ctx.fillText("GAME TITLE I NEED TO MAKE", 18, 40);
-	ctx.fillText("About this tall, two lines worth", 18, 60);
-	ctx.fillStyle = font.Medium;
+	renderBackground(0,0);
+	ctx.font = font.Large;
 	if (menuState == 0) {
 		ctx.fillStyle = color.MenuSelect;
 		switch (menuPointer) {//400
@@ -159,6 +120,7 @@ function renderTitle() {
 	}
 	else {
 		ctx.font = font.Small;
+		ctx.fillStyle = color.Text;
 		ctx.fillText("My goal is making a Canvas & Javascript game", 28, 120);
 		ctx.fillText("This started as a pokemon red / blue emulator", 28, 136);
 		ctx.fillText("However making it faithful became boring", 28, 152);

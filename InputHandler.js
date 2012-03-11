@@ -9,14 +9,15 @@ var input = {
 
 function handleMenu() {
 	switch (gameState) {
-		case "TOWN": HandleTown(); break;
-		case "TITLE": HandleTitle(); break;
-		case "WORLD": HandleWorld(); break;
-		case "BATTLE": HandleBattle(); break;	
-		case state.Won:
-		case state.Lost: HandleEndGame(); break;
+		case "TOWN" : HandleTown(); break;
+		case "TITLE" : HandleTitle(); break;
+		case "WORLD" : HandleWorld(); break;
+		case "BATTLE" : HandleBattle(); break;	
+		case state.Menu : HandleMenu(); break;
+		case state.Won :
+		case state.Lost : HandleEndGame(); break;
 	}
-	if (inputNumber == input.Enter) {menuPointer = 0;}
+	if (inputNumber == input.Cancel) {menuPointer = 0;}
 }
 
 function HandleEndGame() {
@@ -67,8 +68,7 @@ function HandleWorld() {
 		case input.Down: direction = 2; move(2); break;
 		case input.Left: direction = 3; move(3); break;
 		case input.Cancel:
-			if (menuState > 0) {menuState = 0;}
-			else {menuState = 1;} 
+			gameState = state.Menu;
 		break;//Open menu
 		case input.Enter: openTown(); break;//Enter Town
 	}

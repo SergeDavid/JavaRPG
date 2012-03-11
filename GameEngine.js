@@ -20,7 +20,7 @@ var state = {
 	World:"WORLD",
 	Town:"TOWN"
 };
-var gameVersion = "0.0.2";
+var gameVersion = "0.0.3";
 var gameState = state.Title;
 //Pointer is current option in the menu it is pointing at
 var menuPointer = 0;
@@ -32,6 +32,7 @@ var inputNumber = 0;
 var direction = 0;
 //Player location on the map
 var loc = {x:10,y:10};
+var expMultiplier = 20;//TODO: Redesign this
 
 var hero = new Object();
 var monster = new Object();
@@ -42,8 +43,11 @@ window.addEventListener('keydown', function(event) {
     handleMenu();
 }, false);
 
-//@Deprecated TODO 
-function reset() {     
+//@Deprecated TODO: Currently only using this for jumping straight into specific conditions during startup, remove when done. 
+function DebugHelper() {  
+	//newGame();
+	//gameState = state.Menu; 
+	//hero.ap = 10; 
 };
 
 function newGame() {

@@ -1,17 +1,17 @@
 function battleTick(delta) {
-	if (hero.nextturn > 0) {
-		hero.nextturn--;
-		monster.nextturn--;
-		if (monster.nextturn <= 0) {
+	if (hero.nextTurn > 0) {
+		hero.nextTurn--;
+		monster.nextTurn--;
+		if (monster.nextTurn <= 0) {
 			battleBrain(monster);
-			monster.nextturn = 100;
+			monster.nextTurn = 100;
 		}
 	}	
 };
 
 function randomBattle() {
 	gameState = "BATTLE";
-	hero.nextturn = 1;
+	hero.nextTurn = 1;
 	monster = Object.create(entity);
 	monster.exp = 15;
 };
@@ -25,14 +25,14 @@ function HandleBattle() {
 			if (menuPointer < 3) {menuPointer++;} 
 		break;
 		case input.Enter:
-			if (hero.nextturn <= 0) {
+			if (hero.nextTurn <= 0) {
 				switch (menuPointer) {
 					case 0: attack(hero, monster); break;
 					case 1: magic(hero, monster); break;
 					case 2: heal(50, hero); break;
 					case 3: run(); break;	
 				};
-				hero.nextturn = 30;
+				hero.nextTurn = 30;
 			};
 		break;
 	};
@@ -69,6 +69,34 @@ function renderBattleMenu() {
 	ctx.fillText("Item", 224, 270);
 	ctx.fillText("Run", 328, 270);
 	ctx.font = font.Small;
-	ctx.fillText("Hero: " + hero.nextturn, 20, 180);
-	ctx.fillText("Enmy: " + monster.nextturn, 20, 200);
+	ctx.fillText("Hero: " + hero.nextTurn, 20, 180);
+	ctx.fillText("Enmy: " + monster.nextTurn, 20, 200);
 }
+
+//Because one is the opposite of the other, I'm going to render them both at once since it's a 1 on 1 battle.
+function renderStats(e1, e2) {
+	ctx.fillStyle = color.Health;
+	ctx.fillRect(184,20,(-184*(e1.health/e1.maxHealth)),18);
+	ctx.fillRect(216,20,(184*(e2.health/e2.maxHealth)),18);
+	
+	ctx.fillStyle = color.Mana;
+	ctx.fillRect(160,38,(-160*(e1.mana/e1.maxMana)),18);
+	ctx.fillRect(240,38,(160*(e2.mana/e2.maxMana)),18);
+    
+    ctx.fillStyle = color.MenuBorder;
+    ctx.beginPath();
+    ctx.moveTo(190, 16);
+    ctx.lineTo(210, 16);
+    ctx.lineTo(240, 38);
+    ctx.lineTo(240, 56);
+    ctx.lineTo(160, 56);
+    ctx.lineTo(160, 38);
+    ctx.closePath();
+    ctx.fill();
+    
+    ctx.fillStyle = color.Text;
+    ctx.fillText((e1.health/e1.maxHealth)*100 + "%", 120, 20);
+    ctx.fillText((e1.mana/e1.maxMana)*100 + "%", 120, 40);
+    ctx.fillText((e2.health/e2.maxHealth)*100 + "%", 260, 20);
+    ctx.fillText((e2.mana/e2.maxMana)*100 + "%", 260, 40);
+};
