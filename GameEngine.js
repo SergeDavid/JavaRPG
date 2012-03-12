@@ -21,13 +21,9 @@ var state = {
 	Town:"TOWN"
 };
 var gameVersion = "0.0.3";
+var cookieVersion = "0.1";
 var gameState = state.Title;
-//Pointer is current option in the menu it is pointing at
-var menuPointer = 0;
-//State is current layer in the menu from the start, such as the item sub-menu
-var menuState = 0;
-//The last button you pressed
-var inputNumber = 0;
+
 //Player look direction on the map
 var direction = 0;
 //Player location on the map
@@ -36,19 +32,12 @@ var expMultiplier = 20;//TODO: Redesign this
 
 var hero = new Object();
 var monster = new Object();
-//var effects = new Object[5];
+//var effects = new Object[5];//Clouds, Error message, Levelup Message, damage indicators (heal and hurt).
 
 window.addEventListener('keydown', function(event) {
 	inputNumber = event.keyCode;
-    handleMenu();
+    inputHandler();
 }, false);
-
-//@Deprecated TODO: Currently only using this for jumping straight into specific conditions during startup, remove when done. 
-function DebugHelper() {  
-	//newGame();
-	//gameState = state.Menu; 
-	//hero.ap = 10; 
-};
 
 function newGame() {
 	createMap(20,20);

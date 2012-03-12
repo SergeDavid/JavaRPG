@@ -43,24 +43,24 @@ function addStat(e, num) {
 	}	
 }
 
-function attack(e1, e2) {
+function actionAttack(e1, e2) {
 	var dmg = e1.strength;
 	hurt(dmg, e2);		
 };
 
-function magic(e1, e2) {
+function actionMagic(e1, e2) {
 	var dmg = e1.strength;
 	hurt(dmg, e2);	
 };
 
-function heal(dmg, e) {
+function actionHeal(dmg, e) {
 	e.health+=dmg;
 	if (e.health > e.maxHealth) {
 		e.health = e.maxHealth;
 	}
 };
 
-function run() {
+function actionRun() {
 	//TODO: If boss battle, disable this
 	gameState = state.World;
 	
@@ -99,7 +99,7 @@ function die(e) {
 
 function battleBrain(e) {
 	if (e.health/e.maxHealth < e.healDesire && Math.floor(Math.random() * 11) < 3) {
-		heal(15, e);
+		actionHeal(15, e);
 	}
-	else { attack(monster, hero); }
+	else { actionAttack(monster, hero); }
 }

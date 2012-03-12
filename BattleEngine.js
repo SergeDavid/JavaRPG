@@ -1,3 +1,10 @@
+/* This file handles everything to do with gameState = state.Battle || "BATTLE"
+ * Logic is handled from battleTick()
+ * Rendering is handled from renderBattle()
+ * Inputs is handled from handleBattle()
+ * 
+ * @arthor Serge-David */
+
 function battleTick(delta) {
 	if (hero.nextTurn > 0) {
 		hero.nextTurn--;
@@ -16,7 +23,7 @@ function randomBattle() {
 	monster.exp = 15;
 };
 
-function HandleBattle() {
+function handleBattle() {
 	switch (inputNumber) {
 		case input.Left:
 			if (menuPointer > 0) {menuPointer--;} 
@@ -27,10 +34,10 @@ function HandleBattle() {
 		case input.Enter:
 			if (hero.nextTurn <= 0) {
 				switch (menuPointer) {
-					case 0: attack(hero, monster); break;
-					case 1: magic(hero, monster); break;
-					case 2: heal(50, hero); break;
-					case 3: run(); break;	
+					case 0: actionAttack(hero, monster); break;
+					case 1: actionMagic(hero, monster); break;
+					case 2: actionHeal(50, hero); break;
+					case 3: actionRun(); break;	
 				};
 				hero.nextTurn = 30;
 			};

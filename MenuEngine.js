@@ -1,4 +1,12 @@
-function HandleMenu() {
+
+/* TODO
+Reposition Level and Gold numbers
+Add in an Item menu (Those you can use right now)
+Add in equipped items (select them and then press Enter to change them)
+Add in the Game speed and Save game elements
+ */
+
+function handleMenu() {
 	switch(inputNumber) {
 		case input.Cancel : gameState = state.World; break;
 		case input.Up : 

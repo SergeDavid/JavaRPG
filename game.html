@@ -6,17 +6,33 @@
       </head>
       <body>
             <canvas id="GameCanvas">Your browser does not support the canvas tag.</canvas>
-
-<script src="GameEngine.js"></script>
-<script src="Entity.js"></script>
-<script src="Map.js"></script>
-<script src="BattleEngine.js"></script>
-<script src="MenuEngine.js"></script>
-<script src="TownEngine.js"></script>
-<script src="RenderEngine.js"></script>
-<script src="InputHandler.js"></script>
+			
+			<!-- -->			
+			<script src="GameEngine.js"></script>
+			<!-- -->
+			<script src="BattleEngine.js"></script>
+			<script src="EndgameEngine.js"></script>
+			<script src="MenuEngine.js"></script>
+			<script src="TitleEngine.js"></script>
+			<script src="TownEngine.js"></script>
+			<script src="WorldEngine.js"></script>
+			<!-- -->
+			<script src="Entity.js"></script>
+			<script src="Map.js"></script>
+			<!-- -->
+			<script src="RenderHandler.js"></script>
+			<script src="InputHandler.js"></script>
+			<script src="DebugHandler.js"></script>
 <script>
-	DebugHelper();
+	/* GameEngine = main class
+	 * All the other engines handle everything to do with their own gameState
+	 * The Handlers deal with things not related to gameStates, such as the RenderHandler having...
+	 * 		A single function that points to which Engine to render from.
+	 * 		It also contains the spritesheet, color, and font variables.
+	 * Finally the other javascript files such as the Entity are complicated objects
+	 * 
+	 * Unless I get most of my terminology wrong and then sorry.*/
+	DebugStartup();
 	setInterval(mainloop, 1); // Execute as fast as possible
 </script>
       </body>
