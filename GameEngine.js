@@ -2,14 +2,16 @@
 var canvas=document.getElementById('GameCanvas');
 canvas.width = 400;//4:3 ratio
 canvas.height = 300;
-
-/* TITLE = New, Continue, About
- * MENU = Start menu, shows player stats and scrolled down also allows options like battle speed / save / load
- * BATTLE = In a battle
- * WON = End game screen that is good, Takes you back to the title screen when you click enter or just starts showing off scrolling stats.
- * LOST = End game when you die, DUN DUN DUN! Options to load last save and return to title
- * WORLD = Shows the map and you moving around it, starts battles, enter towns, and cancel to open MENU
- * TOWN = All of the menu options you can find in a town.
+/* TODO: List
+ * Add items into the game and enable the using of them in battle
+ * 		Create the menu
+ * 		Add in the handlers for Item.use(ID);
+ * 		Add in a function for monsters to use items without messing with the quantity Item.mobUse(ID); for the BattleBrain function
+ * 		Make it impossible to sell the last equippable item if it is currently equipped.
+ * Start on the Town menu system (Weapons and Item shops as well as a few npc's to talk too)
+ * 		create Item.buy(ID); to be triggered to increase an items quantity by 1 while decreasing your gold by its cost unless you have 99 of them
+ * 		create Item.sell(ID); so you get sellCost back in gold and lose 1 item unless you are completely out of them
+ * 		
  */
 var state = {
 	Title:"TITLE",
@@ -20,7 +22,7 @@ var state = {
 	World:"WORLD",
 	Town:"TOWN"
 };
-var gameVersion = "0.0.3";
+var gameVersion = "0.0.4";
 var cookieVersion = "0.1";
 var gameState = state.Title;
 
@@ -48,7 +50,8 @@ function newGame() {
 }
 
 var gameTick = 0;
-function mainloop() {
+var loopTime = 5;
+function mainLoop() {
 	gameTick++;
 	if (gameTick >= 100) {gameTick = 0;}
 	if (gameTick % 10 == 0) {

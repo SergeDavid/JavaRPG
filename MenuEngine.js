@@ -30,33 +30,40 @@ function renderWorldMenu() {
 	
 	ctx.fillStyle = color.MenuBorder;
 	ctx.fillRect(10, 10, 380, 280);
-	ctx.fillStyle = color.Menu;
+	ctx.fillStyle = color.BG;
 	ctx.fillRect(20, 20, 360, 260);
 	
-	//Health, Mana, and Exp bars
-	ctx.fillStyle = color.MenuBorder;
-	ctx.fillRect(73, 22, 136, 64);
+	renderMenuBars(26, 30, 130);
+	ctx.fillText("Gold: " + hero.gold, 30, 170);
+	ctx.fillText("level: " + hero.level, 30, 150);
+	renderMenuStats();
+	//renderMenuEquipped(); //Helm, Armor, Weapon, Magic (TODO: Decide if I want to allow the use of 1 or more magics in battle)
+	//renderMenuOptions(); //Battle Speed, Save / Load
+};
+
+//X and Y is the top left location while w is the width of the stat bars.
+function renderMenuBars(x, y, w) {
+	ctx.fillStyle = color.MenuBorder;//Border for the bars
+	ctx.fillRect(x+47, y-8, w+6, 64);
 	ctx.fillStyle = color.Health;
-	ctx.fillRect(76, 26, (130*(hero.health/hero.maxHealth)), 20);
+	ctx.fillRect(x+50, y-4, (w*(hero.health/hero.maxHealth)), 20);
 	ctx.fillStyle = color.Mana;
-	ctx.fillRect(76, 46, (130*(hero.mana/hero.maxMana)), 20);
+	ctx.fillRect(x+50, y+16, (w*(hero.mana/hero.maxMana)), 20);
 	ctx.fillStyle = color.Damage;//EXP
-	ctx.fillRect(76, 66, (130*(hero.exp/(hero.level*expMultiplier))), 20);	
+	ctx.fillRect(x+50, y+36, (w*(hero.exp/(hero.level*expMultiplier))), 20);	
 	
 	ctx.fillStyle = color.Text;	
 	
-	ctx.fillText("Health:   " + hero.health + " / " + hero.maxHealth, 26, 30);
-	ctx.fillText("Mana:    " + hero.mana + " / " + hero.maxMana, 26, 50);
-	ctx.fillText("Exp:        " + hero.exp + " / " + (hero.level*expMultiplier), 26, 70);
-	
-	ctx.fillText("Gold: " + hero.gold, 30, 170);
-	
-	ctx.fillText("level: " + hero.level, 30, 150);
-	
-	renderMenuStats();
-};
+	ctx.fillText("Health:   " + hero.health + " / " + hero.maxHealth, x, y);
+	ctx.fillText("Mana:    " + hero.mana + " / " + hero.maxMana, x, y+20);
+	ctx.fillText("Exp:        " + hero.exp + " / " + (hero.level*expMultiplier), x, y+40);
+}
 
 function renderMenuStats() {
+	ctx.fillStyle = color.MenuOption;
+	ctx.fillRect(336, 52, 40, 24);
+	ctx.fillRect(336, 78, 40, 24);
+	ctx.fillRect(336, 104, 40, 24);
 	ctx.fillStyle = color.MenuSelect;
 	switch (menuPointer) {
 		case 0 : ctx.fillRect(336, 52, 40, 24); break;

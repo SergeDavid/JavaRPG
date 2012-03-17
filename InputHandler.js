@@ -16,10 +16,10 @@ var inputNumber = 0;
 
 function inputHandler() {
 	switch (gameState) {
-		case "TOWN" : handleTown(); break;
-		case "TITLE" : handleTitle(); break;
-		case "WORLD" : handleWorld(); break;
-		case "BATTLE" : handleBattle(); break;	
+		case state.Town : handleTown(); break;
+		case state.Title : handleTitle(); break;
+		case state.World : handleWorld(); break;
+		case state.Battle : handleBattle(); break;	
 		case state.Menu : handleMenu(); break;
 		case state.Won :
 		case state.Lost : handleEndGame(); break;

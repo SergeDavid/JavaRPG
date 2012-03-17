@@ -11,15 +11,17 @@ var font = {
 	Medium : "18px Helvetica",
 	Large : "24px Helvetica"
 };
-var color = {
+var color = {//TODO: Re-organize the colors by removing the old ones and adding needed ones for clearification.
 	Text : "#ffffff",//Standard text color
-	GrayText : "#aaaaaa",//Unselectable text color
-	BG : "#242424",//Background
-	Menu : "#242424",//Menu background (Might get replaced with images)
-	MenuSelect : "#484848",//Highlighting currently selected item on menus
-	MenuBorder : "#104410",//Border around the menu, might get replaced like above
+	//MenuOption (a different shade to tell what is an option and what isn't when scrolling through menus)
+	BG : "#242424",//Background @Deprecated when I include background for each gamestate.
+	//Menu : "#242424",//Menu background (Might get replaced with images) @Deprecated when bg images are made
+	MenuSelect : "#4a4a5f",//Highlighting currently selected item on menus
+	MenuOption : "#323232",//A menu option that is currently not selected.
+	MenuBorder : "#104410",//Border around the menu, might get replaced like above @Deprecated when bg images are made
 	Health : "#00aa00",//Health bar color and Heal numbers
 	Mana : "#0000aa",//Mana bar color and Regain mana numbers
+	Exp : "#aa0000",//Experience bar
 	Damage : "#aa0000"//Damage numbers color
 };
 

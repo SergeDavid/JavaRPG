@@ -11,7 +11,6 @@ function handleWorld() {
 	}
 }
 
-
 function renderWorld() {
 	renderMap();
 	

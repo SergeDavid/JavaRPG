@@ -5,23 +5,26 @@
             <title>Java Game for fun</title>
       </head>
       <body>
-            <canvas id="GameCanvas">Your browser does not support the canvas tag.</canvas>
+            <canvas id = "GameCanvas">Your browser does not support the canvas tag.</canvas>
+            <div id = "debug"></div>
 			
-			<!-- -->			
+			<!-- The main engine -->			
 			<script src="GameEngine.js"></script>
-			<!-- -->
+			<!-- The different gameState engines -->
 			<script src="BattleEngine.js"></script>
 			<script src="EndgameEngine.js"></script>
 			<script src="MenuEngine.js"></script>
 			<script src="TitleEngine.js"></script>
 			<script src="TownEngine.js"></script>
 			<script src="WorldEngine.js"></script>
-			<!-- -->
+			<!-- Other -->
 			<script src="Entity.js"></script>
+			<script src="Item.js"></script>
 			<script src="Map.js"></script>
-			<!-- -->
+			<!-- Other -->
 			<script src="RenderHandler.js"></script>
 			<script src="InputHandler.js"></script>
+			<script src="SavingHandler.js"></script>
 			<script src="DebugHandler.js"></script>
 <script>
 	/* GameEngine = main class
@@ -33,7 +36,7 @@
 	 * 
 	 * Unless I get most of my terminology wrong and then sorry.*/
 	DebugStartup();
-	setInterval(mainloop, 1); // Execute as fast as possible
+	setInterval(mainLoop, loopTime); // Execute as fast as possible
 </script>
       </body>
 </html>
