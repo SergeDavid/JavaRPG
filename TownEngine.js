@@ -11,6 +11,8 @@
 var selling = false;//A flag to flip selling and buying
 var itemList;//A compiled list of every item with the type the particular shop is selling.
 var itemLength;//How many items are in the itemList, used to make rendering it a tiny bit faster.
+var itemListTop = 0;//This is the id of the top most item on the list.
+var itemListTotal = 7;//How many items are shown at once max.
 
 function handleTown() {
 	if (menuState > 0) {
@@ -47,14 +49,25 @@ function handleStore() {
 			selling = !selling;
 		break;
 		case input.Up:
-			if (menuPointer > 0) {menuPointer--;}
+			if (menuPointer > 0) {
+				menuPointer--;
+				if (itemListTop > 0 && itemListTop >= menuPointer) {
+					itemListTop--;
+				}
+			}
 		break;
 		case input.Down:
-			if (menuPointer < itemLength - 1) {menuPointer++;}
+			if (menuPointer < itemLength - 1) {
+				menuPointer++;
+				if (itemListTop + itemListTotal < itemList.length && itemListTop < menuPointer - 5) {
+					itemListTop++;
+				}
+			}
 		break;
 		case input.Cancel:
-			menuPointer = 0;//TODO: Base it on which menu is up currently displayed.
+			//menuPointer = menuState-1;
 			menuState = 0;
+			itemListTop = 0;
 		break;
 		case input.Enter:
 			if (!selling) {itemBuy(itemList[menuPointer]);}
@@ -66,7 +79,6 @@ function handleStore() {
 function openTown() {
 	if (map[loc.y][loc.x] == tile.Town) {
 		gameState = state.Town;
-		//itemList = new Array(items.Potion, items[1], items[2], items[3]);
 	}
 };
 
@@ -79,7 +91,7 @@ function renderTown() {
 	ctx.fillStyle = color.Text;
 	ctx.font = font.Large;
 	if (menuState > 0) {
-		renderStore(0);
+		renderStore(menuState);
 	}
 	else {
 		var names = new Array("Items","Weapons","Armors","Helmets");
@@ -97,29 +109,42 @@ function renderTown() {
 function renderStore(type) {
 	var name;
 	switch (type) {
-		case 0: 
+		case 2: name = "Smithery"; break;
+		case 3: name = "Armor Guild"; break;
+		case 4: name = "Mad Hatter"; break;
 		default: name = "Apothecary"; break;
 	}
 	ctx.fillStyle = color.MenuBorder;
-	ctx.fillRect(20, 50, 360, 6);
+	ctx.fillRect(20, 48, 360, 3);
+	ctx.fillRect(20, 72, 360, 4);
+	ctx.fillRect(224, 72, 4, 210);
+	ctx.fillRect(328, 72, 4, 210);
+	//TODO: Add seperators for the different parts Name, Cost, Total
+	
 	ctx.fillStyle = color.Text;
 	ctx.font = font.Large;
-	ctx.fillText(name,40,24);
-	ctx.fillText("gold " + hero.gold, 200, 24);
-	ctx.font = font.Small;
-	//TODO: Setup for allowing scrolling based on the menuPointer location in the length variable.
-	for (var i = 0; i < itemLength; i++) {
-		if (i == menuPointer) {
-			ctx.fillStyle = color.MenuSelect;
-			ctx.fillRect(28, 68+(20*i), 60, 20);
-		}
-		else {
-			ctx.fillStyle = color.MenuOption;
-			ctx.fillRect(28, 68+(20*i), 60, 20);
-		}
-		ctx.fillStyle = color.Text;
-		ctx.fillText(itemList[i].name, 30, 70+(20*i));
-		ctx.fillText("Total : " + itemList[i].total, 200, 70+(20*i));
-	}
+	ctx.fillText(name,30,22);
 	
+	ctx.font = font.Small;
+	ctx.fillText("Gold " + hero.gold, 270, 30);
+	if (selling) {ctx.fillText("Selling", 200, 30);} 
+	else {ctx.fillText("Buying", 200, 30);}
+	ctx.fillText(itemList[menuPointer].desc, 24, 55);
+	
+	ctx.fillText("Name", 30, 84);
+	ctx.fillText("Cost", 236, 84);
+	ctx.fillText("Total", 346, 84);
+	
+	//TODO: Setup for allowing scrolling based on the menuPointer location in the length variable.
+	//7 items total, it scrolls when you reach the 2nd from the top or bottom
+	for (var i = 0; i < itemLength && i < itemListTotal; i++) {
+		if (i+itemListTop == menuPointer) {ctx.fillStyle = color.MenuSelect;}
+		else {ctx.fillStyle = color.MenuOption;}
+		ctx.fillRect(26, 104+(24*i), 192, 22);
+		
+		ctx.fillStyle = color.Text;
+		ctx.fillText(itemList[i+itemListTop].name, 30, 108+(24*i));
+		ctx.fillText("$ " + itemList[i+itemListTop].cost, 236, 108+(24*i));
+		ctx.fillText("x " + itemList[i+itemListTop].total, 346, 108+(24*i));
+	}
 }

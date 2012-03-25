@@ -2,19 +2,18 @@
  *  
  * @arthor Serge-David */
 
-//@Deprecated TODO: Currently only using this for jumping straight into specific conditions during startup, remove when done. 
-function DebugStartup() { 
-	/* 
+function DebugStartup() {
+	/*
 	newGame();
 	map[loc.y][loc.x] = tile.Town;
 	openTown();
 	hero.gold = 1000; */
 };
 
-function debugMsg(text) {
+function debugMessage(text) {
 	document.getElementById("debug").innerHTML = text;
 }
 
-function debugCont(text) {
+function debugMessageAddon(text) {
 	document.getElementById("debug").innerHTML += "\n" +text;
 }

@@ -15,7 +15,7 @@ var itemInfo = {
 var items = {//TODO: Work on this so that I can handle many items such as drain life, potion, magic spells, equipment, and quest items.
 	0 : {
 		name : "Potion",//keep
-		desc : "An item that heals the user for 50 health.",//keep
+		desc : "Restores 50 health to the user.",//keep
 		target : itemInfo.Caster,//keep
 		type : itemInfo.Item,//Is it a helm, armor, weapon, useable item, magic spell, quest item (key).
 		cost : 10,//How much gold it takes to buy
@@ -25,7 +25,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 	},
 	1 : {
 		name : "H-Potion",
-		desc : "",
+		desc : "Restores 100 health to the user.",
 		target : itemInfo.Caster,
 		type : itemInfo.Item,
 		cost : 40,
@@ -35,7 +35,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 	},
 	2 : {
 		name : "M-Potion",
-		desc : "",
+		desc : "Restores Cake to the user.",
 		target : itemInfo.Caster,
 		type : itemInfo.Item,
 		cost : 80,
@@ -45,7 +45,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 	},
 	3 : {
 		name : "Elixar",
-		desc : "An item that restores 25 mana to the user.",
+		desc : "Replenishes 25 mana when used.",
 		target : itemInfo.Caster,
 		type : itemInfo.Item,
 		cost : 25,
@@ -55,7 +55,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 	},
 	4 : {
 		name : "H-Elixar",
-		desc : "An item that restores 25 mana to the user.",
+		desc : "Replenishes 26 mana when used.",
 		target : itemInfo.Caster,
 		type : itemInfo.Item,
 		cost : 25,
@@ -65,7 +65,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 	},
 	5 : {
 		name : "M-Elixar",
-		desc : "An item that restores 25 mana to the user.",
+		desc : "Replenishes 28 mana when used.",
 		target : itemInfo.Caster,
 		type : itemInfo.Item,
 		cost : 25,
@@ -75,7 +75,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 	},
 	6 : {
 		name : "Dagger",
-		desc : "An item that restores 25 mana to the user.",
+		desc : "Side Effects: Pointy end may cause external bleeding.",
 		target : itemInfo.Enemy,//Not needed for
 		type : itemInfo.Weapon,
 		cost : 25,
@@ -83,12 +83,23 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		total : 0,
 		effect : {damage : 5}
 	},
+	7 : {
+		name : "Sword",
+		desc : "Side Effects: Pointy end may cause external bleeding.",
+		target : itemInfo.Enemy,//Not needed for
+		type : itemInfo.Weapon,
+		cost : 25,
+		sell : 15,
+		total : 0,
+		effect : {damage : 5}
+	}
 }
+//TODO: See about using these arrays instead of populating an array every time I need to use one.
 var shopItem;//Potions, elixars, antidotes, etc.
 var shopWeapon;//Daggers, Swords, Bullwhips, etc.
 var shopArmor;//Helmets, Shields, etc. (2 slots, head armor and body armor)
 
-function itemPopulate(type) {//TODO: All of this crap isn't working ARRRGH!!!!
+function itemPopulate(type) {
 	var array = new Array();
 	var a = 0;
 	for (var i in items) {
