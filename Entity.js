@@ -44,13 +44,16 @@ function addStat(e, num) {
 }
 
 function actionAttack(e1, e2) {
-	var dmg = e1.strength;
-	hurt(dmg, e2);		
+	//TODO: Add miss / bonus / glance chance, weapons, etc.
+	// Damage based on weapon and strength ()(e1.str * e1.effect.str + e1.wep.dmg)*e1.bonus) or something along those lines
+	// effect = potions / spells modifier
+	// bonus = crit (1.2), normal (1.0), glance (0.8)
+	hurt(e1.strength, e2);		
 };
 
 function actionMagic(e1, e2) {
-	var dmg = e1.strength;
-	hurt(dmg, e2);	
+	//TODO: chance to hurt yourself if the spell backfires.
+	hurt(e1.strength, e2);	
 };
 
 function actionHeal(dmg, e) {

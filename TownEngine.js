@@ -37,6 +37,7 @@ function handleTown() {
 					case 3: itemList = itemPopulate(itemInfo.Helm); break; //TODO: Useless?
 				}
 				menuState = 1;
+				menuPointer = 0;
 			break;
 		}
 	}
@@ -66,6 +67,7 @@ function handleStore() {
 		break;
 		case input.Cancel:
 			//menuPointer = menuState-1;
+			
 			menuState = 0;
 			itemListTop = 0;
 		break;
@@ -129,22 +131,24 @@ function renderStore(type) {
 	ctx.fillText("Gold " + hero.gold, 270, 30);
 	if (selling) {ctx.fillText("Selling", 200, 30);} 
 	else {ctx.fillText("Buying", 200, 30);}
-	ctx.fillText(itemList[menuPointer].desc, 24, 55);
+	if (itemList.length != 0) {
+		ctx.fillText(itemList[menuPointer].desc, 24, 55);
 	
-	ctx.fillText("Name", 30, 84);
-	ctx.fillText("Cost", 236, 84);
-	ctx.fillText("Total", 346, 84);
+		ctx.fillText("Name", 30, 84);
+		ctx.fillText("Cost", 236, 84);
+		ctx.fillText("Total", 346, 84);
 	
-	//TODO: Setup for allowing scrolling based on the menuPointer location in the length variable.
-	//7 items total, it scrolls when you reach the 2nd from the top or bottom
-	for (var i = 0; i < itemLength && i < itemListTotal; i++) {
-		if (i+itemListTop == menuPointer) {ctx.fillStyle = color.MenuSelect;}
-		else {ctx.fillStyle = color.MenuOption;}
-		ctx.fillRect(26, 104+(24*i), 192, 22);
+		//TODO: Setup for allowing scrolling based on the menuPointer location in the length variable.
+		//7 items total, it scrolls when you reach the 2nd from the top or bottom
+		for (var i = 0; i < itemLength && i < itemListTotal; i++) {
+			if (i+itemListTop == menuPointer) {ctx.fillStyle = color.MenuSelect;}
+			else {ctx.fillStyle = color.MenuOption;}
+			ctx.fillRect(26, 104+(24*i), 192, 22);
 		
-		ctx.fillStyle = color.Text;
-		ctx.fillText(itemList[i+itemListTop].name, 30, 108+(24*i));
-		ctx.fillText("$ " + itemList[i+itemListTop].cost, 236, 108+(24*i));
-		ctx.fillText("x " + itemList[i+itemListTop].total, 346, 108+(24*i));
+			ctx.fillStyle = color.Text;
+			ctx.fillText(itemList[i+itemListTop].name, 30, 108+(24*i));
+			ctx.fillText("$ " + itemList[i+itemListTop].cost, 236, 108+(24*i));
+			ctx.fillText("x " + itemList[i+itemListTop].total, 346, 108+(24*i));
+		}
 	}
 }

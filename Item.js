@@ -92,6 +92,16 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		sell : 15,
 		total : 0,
 		effect : {damage : 5}
+	},
+	8 : {
+		name : "Iron Helm",
+		desc : "Side Effects: ringing in your ears.",
+		target : itemInfo.Caster,//Not needed for
+		type : itemInfo.Helm,
+		cost : 42,
+		sell : 84,
+		total : 0,
+		effect : {damage : 5}
 	}
 }
 //TODO: See about using these arrays instead of populating an array every time I need to use one.

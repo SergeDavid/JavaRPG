@@ -8,6 +8,14 @@ Add in the Game speed and Save game elements
 
 function handleMenu() {
 	switch(inputNumber) {
+		case input.Left : 
+			menuState--;
+			if (menuState < 0) {menuState = 2;}
+		break;
+		case input.Right : 
+			menuState++;
+			if (menuState > 2) {menuState = 0;}
+		break;
 		case input.Cancel : gameState = state.World; break;
 		case input.Up : 
 			if (menuPointer > 0) {menuPointer--;}
@@ -15,11 +23,15 @@ function handleMenu() {
 		case input.Down : 
 			if (menuPointer < 2) {menuPointer++;}
 		break;
-		case input.Enter : 
-			switch (menuPointer) {
-				case 0 : addStat(hero, 0); break;
-				case 1 : addStat(hero, 1); break;
-				case 2 : addStat(hero, 2); break;
+		case input.Enter :
+			switch (menuState) {
+				case 0:
+					switch (menuPointer) {
+						case 0 : addStat(hero, 0); break;
+						case 1 : addStat(hero, 1); break;
+						case 2 : addStat(hero, 2); break;
+					}
+				break;
 			}
 		break;
 	}
@@ -31,15 +43,41 @@ function renderWorldMenu() {
 	ctx.fillStyle = color.MenuBorder;
 	ctx.fillRect(10, 10, 380, 280);
 	ctx.fillStyle = color.BG;
-	ctx.fillRect(20, 20, 360, 260);
+	ctx.fillRect(18, 18, 364, 264);
+	ctx.fillStyle = color.MenuOption;
+	ctx.fillRect(150,22,104,30);//Middle
+	ctx.fillRect(24,28,104,24);//Left
+	ctx.fillRect(272,28,104,24);//Right
 	
-	renderMenuBars(26, 30, 130);
-	ctx.fillText("Gold: " + hero.gold, 30, 170);
-	ctx.fillText("level: " + hero.level, 30, 150);
-	renderMenuStats();
+	switch (menuState) {
+		case 0:
+			renderMenuTabs("Inventory","Stats","Settings");
+			renderMenuBars(26, 66, 130);
+			ctx.fillText("Gold: " + hero.gold, 36, 200);
+			ctx.fillText("level: " + hero.level, 36, 180);
+			renderMenuStats(336,88);	
+		break;
+		case 1 :
+			renderMenuTabs("Stats","Settings","Inventory");
+			renderGameSettings(26,66);
+		break;
+		case 2 :
+			renderMenuTabs("Settings","Inventory","Stats");
+		break;
+	}
 	//renderMenuEquipped(); //Helm, Armor, Weapon, Magic (TODO: Decide if I want to allow the use of 1 or more magics in battle)
 	//renderMenuOptions(); //Battle Speed, Save / Load
 };
+
+function renderMenuTabs(left, middle, right) {
+	ctx.fillStyle = color.Text;
+	ctx.font = font.Large;
+	ctx.fillText(middle, 154, 25);
+	ctx.font = font.Medium;
+	ctx.fillText(left, 30, 30);
+	ctx.fillText(right, 278, 30);
+	ctx.font = font.Small;	
+}
 
 //X and Y is the top left location while w is the width of the stat bars.
 function renderMenuBars(x, y, w) {
@@ -59,28 +97,41 @@ function renderMenuBars(x, y, w) {
 	ctx.fillText("Exp:        " + hero.exp + " / " + (hero.level*expMultiplier), x, y+40);
 }
 
-function renderMenuStats() {
+function renderMenuStats(x, y) {
 	ctx.fillStyle = color.MenuOption;
-	ctx.fillRect(336, 52, 40, 24);
-	ctx.fillRect(336, 78, 40, 24);
-	ctx.fillRect(336, 104, 40, 24);
+	ctx.fillRect(x, y, 40, 24);
+	ctx.fillRect(x, y+26, 40, 24);
+	ctx.fillRect(x, y+52, 40, 24);
 	ctx.fillStyle = color.MenuSelect;
 	switch (menuPointer) {
-		case 0 : ctx.fillRect(336, 52, 40, 24); break;
-		case 1 : ctx.fillRect(336, 78, 40, 24); break;
-		case 2 : ctx.fillRect(336, 104, 40, 24); break;
+		case 0 : ctx.fillRect(x, y, 40, 24); break;
+		case 1 : ctx.fillRect(x, y+26, 40, 24); break;
+		case 2 : ctx.fillRect(x, y+52, 40, 24); break;
 	}
-	ctx.fillRect(228, 26, 148, 22);
+	ctx.fillRect(x-108, y-26, 148, 22);
 	
 	ctx.fillStyle = color.Text;
-	ctx.fillText("Ability Points: " + hero.ap, 232, 30);
-	ctx.fillText("Strength: " + hero.strength, 214, 56);
-	ctx.fillText("Dexterity: " + hero.dexterity, 214, 82);
-	ctx.fillText("Agility: " + hero.agility, 214, 108);	
+	ctx.fillText("Ability Points: " + hero.ap, x-104, y-22);
+	ctx.fillText("Strength: " + hero.strength, x-122, y+4);
+	ctx.fillText("Dexterity: " + hero.dexterity, x-122, y+30);
+	ctx.fillText("Agility: " + hero.agility, x-122, y+56);	
 	
 	ctx.font = font.Medium;
-	ctx.fillText("Add", 340, 56);
-	ctx.fillText("Add", 340, 82);
-	ctx.fillText("Add", 340, 108);
+	ctx.fillText("Add", x+4, y+4);
+	ctx.fillText("Add", x+4, y+30);
+	ctx.fillText("Add", x+4, y+56);
 	ctx.font = font.Small;
-};
+}
+
+function renderGameSettings(x, y) {
+	ctx.fillStyle = color.Text;
+	ctx.fillText("Save Game", x, y);	
+	ctx.fillText("Save", x+40, y+20);	
+	ctx.fillText("Load", x+40, y+40);	
+	ctx.fillText("Battle Speed", x, y+60);	
+	ctx.fillText("Fast", x+40, y+80);	
+	ctx.fillText("Slow", x+40, y+100);	
+	/* TODO: Include more options such as difficulty setting
+	 * Also I want to display something on the right hand like monsters killed, etc.
+	 */
+}
