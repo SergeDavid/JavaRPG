@@ -5,18 +5,18 @@ entity = {
 	maxMana : 20,
 	mana : 10,
 	
-	exp : 0,//Player exp or how much monsters give.
-	level : 1,
-	ap : 0,
+	exp : 0,//Player: total exp which resets when you reach a level, Monster: How much you get from looting.
+	level : 1,//Both: Level
+	ap : 0,//Player: how much stats you can place into str, dex, agi.
 	
-	gold : 10,
-	nextTurn : 2,
-	healDesire : 0.45,
+	gold : 10,//Player: Gold ammount, Monster: Loot ammount.
+	nextTurn : 2,//Both: Count down timer to turn.
+	healDesire : 0.45,//Monster: 1.0 means a monster will want to heal almost as soon as it gets hurt while 0.0 is never.
 	
 	//Stats
-	strength : 40,
-	dexterity : 5,
-	agility : 5,
+	strength : 40,//How much damage you deal
+	dexterity : 5,//How much damage you block
+	agility : 5,//How fast you attack
 	
 	imgx : 128, //image location on the grid
 	imgy : 0,

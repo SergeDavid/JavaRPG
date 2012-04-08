@@ -34,6 +34,14 @@ var expMultiplier = 20;//TODO: Redesign this
 
 var hero = new Object();
 var monster = new Object();
+var gameinfo = {//Stores a lot of fun wibbly wobbly timey whimey shinanigans
+	startTime:0,//Tracks when you started the game and lost / won.
+	endTime:0,
+	kills:0,//Kill count
+	runs:0,//Pansy count
+	heals:0,//Times healed
+	magicBackfires:0//Best stat ever
+};
 //var effects = new Object[5];//Clouds, Error message, Levelup Message, damage indicators (heal and hurt).
 
 window.addEventListener('keydown', function(event) {
