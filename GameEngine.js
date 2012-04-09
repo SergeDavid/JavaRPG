@@ -22,7 +22,7 @@ var state = {
 	World:"WORLD",
 	Town:"TOWN"
 };
-var gameVersion = "0.0.4";
+var gameVersion = "0.0.5";
 var cookieVersion = "0.1";
 var gameState = state.Title;
 

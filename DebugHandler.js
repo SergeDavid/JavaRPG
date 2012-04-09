@@ -18,6 +18,8 @@ function DebugStartup() {
 	hero.gold = 1000; */
 };
 
+function showCookie() {debugMessage(document.cookie.split("; ")[3]);}
+
 function debugAlert(text) {
 	document.getElementById("debugTop").innerHTML = text;
 	setTimeout("document.getElementById('debugTop').innerHTML = '';", 2000);

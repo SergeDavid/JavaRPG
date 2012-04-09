@@ -71,6 +71,7 @@ function actionRun() {
 
 function hurt(dmg, e) {
 	dmg -= e.dexterity;
+	if (dmg < 1) {dmg = 1;}
 	e.health -= dmg;
 	if (e.health <= 0) {
 		e.health = 0;

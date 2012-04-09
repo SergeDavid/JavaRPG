@@ -37,6 +37,7 @@ function handleMenu() {
 	}
 }
 
+//Base menu render handler
 function renderWorldMenu() {
 	renderMap();
 	
@@ -48,14 +49,19 @@ function renderWorldMenu() {
 	ctx.fillRect(150,22,104,30);//Middle
 	ctx.fillRect(24,28,104,24);//Left
 	ctx.fillRect(272,28,104,24);//Right
-	
+	/*TODO:
+	 *1) Make the three different equipment options selectable in the Stats menu (wep, arm, helm) 
+	 *2) Display your items in the inventory menu (usable are white, non are greyed)
+	 *3) Probably add a sorting system (Will probably need another button)
+	 */
 	switch (menuState) {
 		case 0:
 			renderMenuTabs("Inventory","Stats","Settings");
 			renderMenuBars(26, 66, 130);
-			ctx.fillText("Gold: " + hero.gold, 36, 200);
-			ctx.fillText("level: " + hero.level, 36, 180);
+			ctx.fillText("Gold: " + hero.gold, 36, 136);
+			ctx.fillText("level: " + hero.level, 36, 150);
 			renderMenuStats(336,88);	
+			renderMenuEquipped(26, 174, 260);
 		break;
 		case 1 :
 			renderMenuTabs("Stats","Settings","Inventory");
@@ -63,6 +69,7 @@ function renderWorldMenu() {
 		break;
 		case 2 :
 			renderMenuTabs("Settings","Inventory","Stats");
+			
 		break;
 	}
 	//renderMenuEquipped(); //Helm, Armor, Weapon, Magic (TODO: Decide if I want to allow the use of 1 or more magics in battle)
@@ -121,6 +128,23 @@ function renderMenuStats(x, y) {
 	ctx.fillText("Add", x+4, y+30);
 	ctx.fillText("Add", x+4, y+56);
 	ctx.font = font.Small;
+}
+
+function renderMenuEquipped(x, y, w) {
+	ctx.fillStyle = color.MenuOption;
+	ctx.fillRect(x, y, 76, 28);
+	ctx.fillRect(x, y+36, 76, 28);
+	ctx.fillRect(x, y+72, 76, 28);
+	ctx.fillRect(x+84, y, w, 28);
+	ctx.fillRect(x+84, y+36, w, 28);
+	ctx.fillRect(x+84, y+72, w, 28);
+	ctx.fillStyle = color.Text;
+	ctx.font = font.Medium;
+	ctx.fillText("Weapon", x+4, y+6);
+	ctx.fillText("Armor", x+7, y+42);
+	ctx.fillText("Helmet", x+6, y+78);
+	ctx.font = font.Small;
+	ctx.fillText("MyPrettyWeaponIsPretty!", x+90, y+10);
 }
 
 function renderGameSettings(x, y) {

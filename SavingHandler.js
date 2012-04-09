@@ -52,9 +52,7 @@ function saveInventory() {
 }
 
 function loadGame() {
-	var cookieVersion2 = "0.0.2";//TODO: Remove this with the version saved in the cookie
-	//Maybe add a cookieVersion to GameEngine so that gameVersions that can support the same save file can work together.
-	if (cookieVersion === cookieVersion2) {
+	if (cookieVersion == cookieVersion) {
 		//TODO: Transfer the strings data into the different variables.
 	}
 	else {
