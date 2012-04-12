@@ -42,10 +42,9 @@ Spell Casting
 ------------
 --- Code ---
 ------------
-  1) Redesign the different files to put all class specific functions inside classes (entityAttack -> entity.Attack) while globals are pretty much normal like startGame
-  2) Put Hero and Monster in the Entity.js and just fill them with the stats of Entity (for monsters just copy+paste their stats from Enemies.js->Enemies->Rat)
-  3) Finish redesigning the menuState system (changing from numbers to enums for easy changes)
-  4) Add in a very crappy weapon, armor, helmet, and magic that you can't sell so you'll always have a default thing to use.
+  *) Put Hero and Monster in the Entity.js and just fill them with the stats of Entity (for monsters just copy+paste their stats from Enemies.js->Enemies->Rat)
+  *) Finish redesigning the menuState system (changing from numbers to enums for easy changes)
+  *) Add in a very crappy weapon, armor, helmet, and magic that you can't sell so you'll always have a default thing to use.
 	 Currently though I'm using a -1 item for filler, I tried offsetting everything by +1 and then -1 when used but it didn't like that either.
 
 ---------------

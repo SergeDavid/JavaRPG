@@ -68,6 +68,10 @@ var gameinfo = {//Stores a lot of fun wibbly wobbly timey whimey shinanigans
 };
 //var effects = new Object[5];//Clouds, Error message, Levelup Message, damage indicators (heal and hurt).
 
+Math.rand = function (num) {
+	return Math.floor((Math.random()*num)+1);
+}
+
 window.addEventListener('keydown', function(event) {
 	if (running) {
 		inputNumber = event.keyCode;

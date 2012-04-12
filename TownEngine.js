@@ -11,26 +11,20 @@
 var selling = false;//A flag to flip selling and buying
 
 function handleTown() {
-	if (menuState > 0) {
-		handleStore();
-	}
+	if (menuState > 0) {handleStore();}
 	else {
 		switch (inputNumber) {
-			case input.Up:
-				if (menuPointer > 0) {menuPointer--;}
-			break;
-			case input.Down:
-				if (menuPointer < 3) {menuPointer++;}
-			break;
+			case input.Up: if (menuPointer > 0) {menuPointer--;} break;
+			case input.Down: if (menuPointer < 3) {menuPointer++;} break;
 			case input.Cancel:
 				gameState = state.World; menuPointer = 0; menuState = 0;
 			break;
 			case input.Enter:
 				switch (menuPointer) {
-					case 0: itemPopulate(itemInfo.Item); break;
-					case 1: itemPopulate(itemInfo.Weapon); break; 
-					case 2: itemPopulate(itemInfo.Armor); break;
-					case 3: itemPopulate(itemInfo.Helm); break; //TODO: Useless?
+					case 0: itemPopulate(item.type.Item); break;
+					case 1: itemPopulate(item.type.Weapon); break; 
+					case 2: itemPopulate(item.type.Armor); break;
+					case 3: itemPopulate(item.type.Helm); break; //TODO: Useless?
 				}
 				menuState = 1;
 				menuPointer = 0;
@@ -48,28 +42,23 @@ function handleStore() {
 		case input.Up:
 			if (menuPointer > 0) {
 				menuPointer--;
-				if (itemListTop > 0 && itemListTop >= menuPointer) {
-					itemListTop--;
-				}
+				if (itemListTop > 0 && itemListTop >= menuPointer) {itemListTop--;}
 			}
 		break;
 		case input.Down:
 			if (menuPointer < itemLength - 1) {
 				menuPointer++;
-				if (itemListTop + itemListTotal < itemList.length && itemListTop < menuPointer - 5) {
-					itemListTop++;
-				}
+				if (itemListTop + itemListTotal < itemList.length && itemListTop < menuPointer - 5) {itemListTop++;}
 			}
 		break;
 		case input.Cancel:
 			//menuPointer = menuState-1;
-			
 			menuState = 0;
 			itemListTop = 0;
 		break;
 		case input.Enter:
-			if (!selling) {itemBuy(itemList[menuPointer]);}
-			else {itemSell(itemList[menuPointer]);}
+			if (!selling) {item.buy(itemList[menuPointer]);}
+			else {item.sell(itemList[menuPointer]);}
 		break;
 	}
 }

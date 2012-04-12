@@ -11,12 +11,12 @@ function handleMenu() {
 		case input.Left : 
 			menuState--;
 			if (menuState < 0) {menuState = 2;}
-			if (menuState == menues.Menu.Inventory) {menuPointer = 0; inventoryPopulate(-1);}
+			if (menuState == menues.Menu.Inventory) {menuPointer = 0; inventoryPopulate(item.type.Item);}
 		break;
 		case input.Right : 
 			menuState++;
 			if (menuState > 2) {menuState = 0;}
-			if (menuState == menues.Menu.Inventory) {menuPointer = 0; inventoryPopulate(-1);}
+			if (menuState == menues.Menu.Inventory) {menuPointer = 0; inventoryPopulate(item.type.Item);}
 		break;
 		case input.Cancel : 
 			if (menuState > menues.Menu.Inventory) {menuState = menues.Menu.Player;}
@@ -54,38 +54,36 @@ function handleMenu() {
 						case 1 : addStat(hero, 1); break;
 						case 2 : addStat(hero, 2); break;
 						case 3 : 
-							inventoryPopulate(itemInfo.Weapon);
+							inventoryPopulate(item.type.Weapon);
 							menuPointer = 0;
 							menuState = menues.Menu.EquipWep;  
 						break;
 						case 4 : 
-							inventoryPopulate(itemInfo.Armor);
+							inventoryPopulate(item.type.Armor);
 							menuPointer = 0;
 							menuState = menues.Menu.EquipArm; 
 						break;
 						case 5 : 
-							inventoryPopulate(itemInfo.Helmet);
+							inventoryPopulate(item.type.Helmet);
 							menuPointer = 0;
 							menuState = menues.Menu.EquipHel; 
 						break;
 					}
 				break;
 				case menues.Menu.EquipWep:
-				  debugMessage("total = " + itemList[menuPointer].total);
-				  debugPush(itemInfo.Weapon + " = " + itemList[menuPointer].type);
-				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == itemInfo.Weapon) {
+				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Weapon) {
 				  	hero.wep = itemList[menuPointer].id;
 				  	menuState = 0;debugPush("Done");//TODO: id+1 so nothing is zero and 1 is potion
 				  }
 				break;
 				case menues.Menu.EquipArm:
-				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == itemInfo.Armor) {
+				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Armor) {
 				  	hero.arm = itemList[menuPointer].id;
 				  	menuState = 0;
 				  }
 				break;
 				case menues.Menu.EquipHelm:
-				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == itemInfo.Helmet) {
+				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Helmet) {
 				  	hero.helm = itemList[menuPointer].id;
 				  	menuState = 0;
 				  }
