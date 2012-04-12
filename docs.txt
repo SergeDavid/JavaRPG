@@ -1,0 +1,56 @@
+Design ideas and what not so I don't have to nest everything in comments through the code.
+
+-------------
+--- Magic ---
+-------------
+System
+  a) Create a menu in the battle system to use a magic ability.
+  b) Equip a single magic ability or abilities (Maybe 2 or 3 total so you can't have magic for all occasions!)
+Abilities
+  *) Flash, blinds your opponent slightly making attacks on you slightly less forth comming, except on monsters who like it.
+  *) Magic Missile, of course you need this generic gem.
+  *) Gun (Because I CAN), instead of using magic points it takes a random item (standard items only like potions),
+  and then shoots it dealing damage based on its cost (-1 to the items count because you shot it out of a magic gun).
+  Also I need to make a very expensive item called a Bullet (Expensivish and lots of damage, but does nothing else)
+  *) Haste / Slow (pretty standard)
+  *) Other stat effecting magics
+  *) Toxic is another default one I need to add.
+Spell Casting
+  *) Epic Failure (Spell blows up in your face)
+  *) Miss (nothing happens, it sucks when you say your spell out of order or leave the safety on)
+  *) Hit (normal thing happens)
+  *) Extra umph (bigger and better explosions, but probably hurts you a little)
+
+----------------
+--- Graphics ---
+---------------- 
+  *) Rework the grid and make everything 8x8 or 16x16 (currently 1x1 on everything)
+  *) Rework the way everything is drawn to the canvas, I'm thinking something like having a width*height array filled with color data repusenting each pixel.
+  This gives me a lot of options on drawing things to the canvas as I can remove alphas from the img (makes it smaller) and reuse more tiles by tinting them.
+  Though I'll probably have to decrease the palette which might be better for the game anyway.
+  My biggest consern is how long it would take each rendering cycle if I implement it in a stupid way, though I don't think it would be much slower then my current method of drawing images with a lot more color varients.
+  With this I could also theoretically implement color blending and tinting (ghosts, OooOoooOOOOoo)
+
+----------------------
+--- Map Generation ---
+----------------------
+  *) I really want to set it up so that it is randomly generated locations with different variables added
+  	   1) Theme (island, cave, volcano, forrest / plains)
+  	   2) Important things (Towns, Bosses, Teleports as in boats, cave enterences, etc)
+  	   3) Boss placement (blocking the paths to important things)
+
+------------
+--- Code ---
+------------
+  1) Redesign the different files to put all class specific functions inside classes (entityAttack -> entity.Attack) while globals are pretty much normal like startGame
+  2) Put Hero and Monster in the Entity.js and just fill them with the stats of Entity (for monsters just copy+paste their stats from Enemies.js->Enemies->Rat)
+  3) Finish redesigning the menuState system (changing from numbers to enums for easy changes)
+  4) Add in a very crappy weapon, armor, helmet, and magic that you can't sell so you'll always have a default thing to use.
+	 Currently though I'm using a -1 item for filler, I tried offsetting everything by +1 and then -1 when used but it didn't like that either.
+
+---------------
+--- Effects ---
+---------------
+  *) Add in some movement to the different states like grass / water movement in the world map and maybe a cursor / selection box blink to further show what you are pointed at
+  *) indicator pop ups such as damage, healing, level up, etc.
+  *) State transitions like world to battle

@@ -104,22 +104,37 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		effect : {damage : 5}
 	}
 }
-//TODO: See about using these arrays instead of populating an array every time I need to use one.
-var shopItem;//Potions, elixars, antidotes, etc.
-var shopWeapon;//Daggers, Swords, Bullwhips, etc.
-var shopArmor;//Helmets, Shields, etc. (2 slots, head armor and body armor)
+var itemList;//A compiled list of every item with the type the particular shop is selling.
+var itemLength;//How many items are in the itemList, used to make rendering it a tiny bit faster.
+var itemListTop = 0;//This is the id of the top most item on the list.
+var itemListTotal = 7;//How many items are shown at once max.
 
 function itemPopulate(type) {
-	var array = new Array();
+	itemList = new Array();
 	var a = 0;
 	for (var i in items) {
 		if (items[i].type == type) {
-			array.push(items[i]);
+			itemList.push(items[i]);
+			itemList[itemList.length-1].id = i;
 			a++;
 		}
 	}
-	itemLength = array.length;
-	return array;
+	itemLength = itemList.length;
+}
+function inventoryPopulate(type) {
+	itemList = new Array();
+	var a = 0;
+	if (type == itemInfo.Weapon || type == itemInfo.Armor || type == itemInfo.Helmet) {
+		itemList.push({name:"Nothing",id:-1,desc:"Nothing"});
+	}
+	for (var i in items) {
+		if (items[i].total > 0 && (items[i].type == type || type == -1)) {
+			itemList.push(items[i]);
+			itemList[itemList.length-1].id = i;
+			a++;
+		}
+	}
+	itemLength = itemList.length;
 }
 
 function itemBuy(i) {

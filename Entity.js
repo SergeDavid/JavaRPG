@@ -17,6 +17,9 @@ entity = {
 	strength : 40,//How much damage you deal
 	dexterity : 5,//How much damage you block
 	agility : 5,//How fast you attack
+	wep : 0,
+	arm : 0,
+	helm : 0,
 	
 	imgx : 128, //image location on the grid
 	imgy : 0,
@@ -31,6 +34,11 @@ var magic = {
 		mana:10
 	}
 };
+
+function equipName(id) {
+	if (id == 0) return "Nothing";
+	else {return items[id-1].name;}
+}
 
 function addStat(e, num) {
 	if (e.ap > 0) {

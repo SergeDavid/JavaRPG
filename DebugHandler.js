@@ -8,16 +8,12 @@ var cheat = {
 	alwaysTown:false//Not sure if I want it or not.
 }
 
-
 function DebugStartup() {
 	debugPop("Save Version: " + cookieVersion);
 	debugPop("Game Version: " + gameVersion);
-	/*newGame();
-	map[loc.y][loc.x] = tile.Town;
-	openTown();
-	hero.gold = 1000; */
 };
 
+function changeTimer(num) {if (num > 4 && num < 51) loopTime = num;}//Min = 5, Max = 50
 function showCookie() {debugMessage(document.cookie.split("; ")[3]);}
 
 function debugAlert(text) {

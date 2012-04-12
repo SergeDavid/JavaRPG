@@ -2,6 +2,7 @@
 var canvas=document.getElementById('GameCanvas');
 canvas.width = 400;//4:3 ratio
 canvas.height = 300;
+var running = true;
 /* TODO: List
  * Add items into the game and enable the using of them in battle
  * 		Create the menu
@@ -22,15 +23,38 @@ var state = {
 	World:"WORLD",
 	Town:"TOWN"
 };
+var menues = {
+	Title : {
+		Title : 0,
+		About : 1
+	},
+	Battle : {},
+	Menu : {
+		Player : 0,//important stats, apply ap, and change equipment
+		Settings : 1,//Save and Load, Game speed, Battle speed, random stats
+		Inventory : 2,//Useable Items and Quest items (or maybe hide these somewhere else)
+		EquipWep : 3,
+		EquipArm : 4,
+		EquipHel : 5//Might change this to magic if I only let you use one magic ability at once.
+	},
+	Won : 0,
+	Lost : 0,
+	World : 0,//Might use this to determin 
+	Town : {
+		Main : 0,
+		ItemShop : 1,
+		WepShop : 2,
+		ArmShop : 3,
+		HelmShop : 4
+	}
+}
 var gameVersion = "0.0.5";
 var cookieVersion = "0.1";
 var gameState = state.Title;
 
-//Player look direction on the map
-var direction = 0;
-//Player location on the map
-var loc = {x:10,y:10};
-var expMultiplier = 20;//TODO: Redesign this
+var direction = 0;//Player look direction on the map
+var loc = {x:10,y:10};//Player location on the map
+var expMultiplier = 20;//TODO: Redesign this (used to determine how much exp per level the player needs to level up)
 
 var hero = new Object();
 var monster = new Object();
@@ -45,8 +69,10 @@ var gameinfo = {//Stores a lot of fun wibbly wobbly timey whimey shinanigans
 //var effects = new Object[5];//Clouds, Error message, Levelup Message, damage indicators (heal and hurt).
 
 window.addEventListener('keydown', function(event) {
-	inputNumber = event.keyCode;
-    inputHandler();
+	if (running) {
+		inputNumber = event.keyCode;
+    	inputHandler();
+    }
 }, false);
 
 function newGame() {
@@ -57,15 +83,21 @@ function newGame() {
 	hero.imgx = 256;	
 }
 
-var gameTick = 0;
+function stopGame() {running = false;}
+function startGame() {running = true; setTimeout(mainLoop, loopTime);}
+
+var gameTick = 0;//Max is 99
 var loopTime = 5;
 function mainLoop() {
-	gameTick++;
-	if (gameTick >= 100) {gameTick = 0;}
-	if (gameTick % 10 == 0) {
-		switch (gameState) {
-			case state.Battle: battleTick(); break;	
+	if (running) {
+		gameTick++;
+		if (gameTick >= 100) {gameTick = 0;}
+		if (gameTick % 10 == 0) {
+			switch (gameState) {
+				case state.Battle: battleTick(); break;	
+			}
 		}
-	}
-    render();
+    	render();
+    	setTimeout(mainLoop, loopTime);
+   	}
 };

@@ -9,10 +9,6 @@
  */
 
 var selling = false;//A flag to flip selling and buying
-var itemList;//A compiled list of every item with the type the particular shop is selling.
-var itemLength;//How many items are in the itemList, used to make rendering it a tiny bit faster.
-var itemListTop = 0;//This is the id of the top most item on the list.
-var itemListTotal = 7;//How many items are shown at once max.
 
 function handleTown() {
 	if (menuState > 0) {
@@ -31,10 +27,10 @@ function handleTown() {
 			break;
 			case input.Enter:
 				switch (menuPointer) {
-					case 0: itemList = itemPopulate(itemInfo.Item); break;
-					case 1: itemList = itemPopulate(itemInfo.Weapon); break; 
-					case 2: itemList = itemPopulate(itemInfo.Armor); break;
-					case 3: itemList = itemPopulate(itemInfo.Helm); break; //TODO: Useless?
+					case 0: itemPopulate(itemInfo.Item); break;
+					case 1: itemPopulate(itemInfo.Weapon); break; 
+					case 2: itemPopulate(itemInfo.Armor); break;
+					case 3: itemPopulate(itemInfo.Helm); break; //TODO: Useless?
 				}
 				menuState = 1;
 				menuPointer = 0;
@@ -138,17 +134,14 @@ function renderStore(type) {
 		ctx.fillText("Cost", 236, 84);
 		ctx.fillText("Total", 346, 84);
 	
-		//TODO: Setup for allowing scrolling based on the menuPointer location in the length variable.
-		//7 items total, it scrolls when you reach the 2nd from the top or bottom
 		for (var i = 0; i < itemLength && i < itemListTotal; i++) {
-			if (i+itemListTop == menuPointer) {ctx.fillStyle = color.MenuSelect;}
-			else {ctx.fillStyle = color.MenuOption;}
+			selectedColor(i+itemListTop);
 			ctx.fillRect(26, 104+(24*i), 192, 22);
-		
 			ctx.fillStyle = color.Text;
-			ctx.fillText(itemList[i+itemListTop].name, 30, 108+(24*i));
 			ctx.fillText("$ " + itemList[i+itemListTop].cost, 236, 108+(24*i));
 			ctx.fillText("x " + itemList[i+itemListTop].total, 346, 108+(24*i));
+			if (selling) drawItemName(itemList[i+itemListTop].id, itemGreying.Sell, 30, 108+(24*i));
+			else drawItemName(itemList[i+itemListTop].id, itemGreying.Buy, 30, 108+(24*i));
 		}
 	}
 }
