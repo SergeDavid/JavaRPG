@@ -102,16 +102,3 @@ function renderBackground (x, y) {
 		ctx.drawImage(background.img, x*400, y*300, 400, 300, 0, 0, 400, 300)
 	}
 };
-
-function renderMap() {
-	var xoff = loc.x * 64 - 200 + 32;
-	var yoff = loc.y * 64 - 150 + 32;
-	for (var y = 0; y < mapH; y++) {
-		for (var x = 0; x < mapW; x++) {
-			if (map[y][x].top == true) {
-				renderImage(64, tile.Open.x, tile.Open.y, x*64-xoff, y*64-yoff);	
-			}
-			renderImage(64, map[y][x].x, map[y][x].y, x*64-xoff, y*64-yoff);
-		}
-	}	
-};

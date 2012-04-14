@@ -10,17 +10,22 @@ function handleMenu() {
 	switch(inputNumber) {
 		case input.Left : 
 			menuState--;
+			menuPointer = 0;
 			if (menuState < 0) {menuState = 2;}
 			if (menuState == menues.Menu.Inventory) {menuPointer = 0; inventoryPopulate(item.type.Item);}
 		break;
 		case input.Right : 
 			menuState++;
+			menuPointer = 0;
 			if (menuState > 2) {menuState = 0;}
 			if (menuState == menues.Menu.Inventory) {menuPointer = 0; inventoryPopulate(item.type.Item);}
 		break;
 		case input.Cancel : 
-			if (menuState > menues.Menu.Inventory) {menuState = menues.Menu.Player;}
-			else gameState = state.World; 
+			if (menuState > menues.Menu.Inventory) {
+				menuPointer = menuState;
+				menuState = menues.Menu.Player;
+			}
+			else {gameState = state.World; menuPointer = 0;} 
 		break;
 		case input.Up : 
 			switch (menuState) {
@@ -64,29 +69,38 @@ function handleMenu() {
 							menuState = menues.Menu.EquipArm; 
 						break;
 						case 5 : 
-							inventoryPopulate(item.type.Helmet);
+							inventoryPopulate(item.type.Helm);
 							menuPointer = 0;
 							menuState = menues.Menu.EquipHel; 
 						break;
 					}
 				break;
+				case menues.Menu.Inventory: 
+					item.use(itemList[menuPointer].id);
+				break;
 				case menues.Menu.EquipWep:
-				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Weapon) {
-				  	hero.wep = itemList[menuPointer].id;
-				  	menuState = 0;debugPush("Done");//TODO: id+1 so nothing is zero and 1 is potion
-				  }
+					if (menuPointer == 0) {hero.wep = 0;menuState = 0;menuPointer = 3;}
+					else if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Weapon) {
+						hero.wep = itemList[menuPointer].id;
+						menuState = 0;
+						menuPointer = 3;
+					}
 				break;
 				case menues.Menu.EquipArm:
-				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Armor) {
-				  	hero.arm = itemList[menuPointer].id;
-				  	menuState = 0;
-				  }
+					if (menuPointer == 0) {hero.arm = 0;menuState = 0;menuPointer = 4;}
+					else if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Armor) {
+						hero.arm = itemList[menuPointer].id;
+						menuState = 0;
+						menuPointer = 4;
+					}
 				break;
 				case menues.Menu.EquipHelm:
-				  if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Helmet) {
-				  	hero.helm = itemList[menuPointer].id;
-				  	menuState = 0;
-				  }
+					if (menuPointer == 0) {hero.helm = 0;menuState = 0;menuPointer = 5;}
+					else if (itemList[menuPointer].total > 0 && itemList[menuPointer].type == item.type.Helmet) {
+						hero.helm = itemList[menuPointer].id;
+						menuState = 0;
+						menuPointer = 5;
+					}
 				break;
 			}
 		break;
@@ -131,6 +145,14 @@ function renderWorldMenu() {
 			renderMenuTabs("---","Weapons","---");
 			renderMenuInventory();
 		break;
+		case menues.Menu.EquipArm :
+			renderMenuTabs("---","Armor","---");
+			renderMenuInventory();
+		break;
+		case menues.Menu.EquipHel :
+			renderMenuTabs("---","Helmets","---");
+			renderMenuInventory();
+		break;
 	}
 	//renderMenuEquipped(); //Helm, Armor, Weapon, Magic (TODO: Decide if I want to allow the use of 1 or more magics in battle)
 	//renderMenuOptions(); //Battle Speed, Save / Load
@@ -151,7 +173,6 @@ function renderMenuInventory() {//TODO: Redesign a bit more to make it prettier!
 	ctx.fillRect(20, 48, 360, 3);
 	ctx.fillRect(20, 72, 360, 4);
 	ctx.fillRect(224, 72, 4, 210);
-	ctx.fillRect(328, 72, 4, 210);
 	ctx.fillStyle = color.Text;
 	ctx.font = font.Small;
 
@@ -165,6 +186,7 @@ function renderMenuInventory() {//TODO: Redesign a bit more to make it prettier!
 			ctx.fillRect(26, 104+(24*i), 192, 22);
 			ctx.fillStyle = color.Text;
 			drawItemName(itemList[i+itemListTop].id, itemGreying.Equip, 30, 108+(24*i));
+			item.effectInfo(itemList[i+itemListTop].id, 232, 108+(24*i));
 		}
 	}
 }

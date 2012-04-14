@@ -1,8 +1,8 @@
 entity = {
 	maxHealth : 100,
 	health : 100,
-	maxMana : 20,
-	mana : 10,
+	maxMana : 50,
+	mana : 25,
 	
 	exp : 0,//Player: total exp which resets when you reach a level, Monster: How much you get from looting.
 	level : 1,//Both: Level

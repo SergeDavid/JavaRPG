@@ -24,5 +24,4 @@ function inputHandler() {
 		case state.Won :
 		case state.Lost : handleEndGame(); break;
 	}
-	if (inputNumber == input.Cancel) {menuPointer = 0;}
 }

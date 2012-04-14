@@ -48,13 +48,14 @@ var menues = {
 		HelmShop : 4
 	}
 }
-var gameVersion = "0.0.5";
+var gameVersion = "0.0.6";
 var cookieVersion = "0.1";
 var gameState = state.Title;
 
 var direction = 0;//Player look direction on the map
 var loc = {x:10,y:10};//Player location on the map
 var expMultiplier = 20;//TODO: Redesign this (used to determine how much exp per level the player needs to level up)
+var battleChance = 20;//% of chance you'll get into a battle
 
 var hero = new Object();
 var monster = new Object();
@@ -80,7 +81,7 @@ window.addEventListener('keydown', function(event) {
 }, false);
 
 function newGame() {
-	createMap(20,20);
+	createMap(40,40);
 	gameState = state.World;
 	menuState = 0;
 	hero = Object.create(entity);

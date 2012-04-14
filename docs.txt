@@ -1,11 +1,58 @@
 Design ideas and what not so I don't have to nest everything in comments through the code.
 
+-----------------
+--- Bugs List ---
+-----------------
+	*) Helmet equip menu is currently broken.
+		*) Owning 1 Iron Helm doesn't show up on the list to select.
+		*) If added a Steel Helm "Nothing" option is hidden, and you can scroll off the list by hitting the down arrow again when you reach the last option.
+	*) Potential bugs from removing the auto menuPointer = 0; when pressing cancel.
+------------------------------
+--- Unimplimented Features ---
+------------------------------
+	*) Battle speed setting (decreases how many ticks it takes to preform actions)
+	*) Saving and loading the game
+	*) Magic
+	*) Monsters loaded based on certain stats
+		*) Each area has a level range (such as lvl 5 to 15 which monsters will pop up randomly between those two levels)
+		*) Monsters will be picked randomly from the base stats (bosses are placed differently or an extra 10/20 levels)
+		*) So it is something like 5str + 2str * level + 5str * level&5
+	*) Smaller tile footprint (Instead of 32x32 I want it to be something like 8x8)
+		*) On a 1/4th sized map (player is 4x the size of tiles) his footprint would be something like
+			 00 
+			0000
+			0000
+			 00 
+	*) Blocking an item from being used when it causes no effects, like trying to use a potion when you are at max health.
+	*) Add in more functions to the item name highlighter, such as greying out items you can't use (target.enemy when in your inventory or a potion when your at max health)
+	*) Randomly generates the maps based on a theme such as a volcanic island (generally a big circle as the volcano is in the middle and the ocean is on the outside)
+	*) Add in an option for full screen
+
+
+--------------
+--- Menues ---
+--------------
+  Todo) Magic Menu in Battle
+  Todo) Item Menu in Battle
+  Todo) Connect the inventory menu with item.Use()
+  Todo) Add a credit like thing to the game over menu
+  Todo) Add some stuff to the town front menues
+
+-------------
+--- World ---
+------------- 
+  Volcanic Island) You first start out on a beach near the single town on the island, this map leads to two locations (volcanoe and sunken cave)
+  Volcanoe) A boss is on the other side, when it dies the sunken cave is slightly drained so you can pass through it.
+  Sunken Cave) You can't pass through it until the first boss is killed, another boss blocks the exit to a coastline
+  Coastline) Two towns are here and three different paths, Forrest, Desert, Plains.
+
 -------------
 --- Magic ---
 -------------
-System
-  a) Create a menu in the battle system to use a magic ability.
-  b) Equip a single magic ability or abilities (Maybe 2 or 3 total so you can't have magic for all occasions!)
+Using in Battle
+  *) Open the spell menu in battle when it is your turn
+  	 *) Might set it up so you can only access three different spells at a time in battle
+  *) All spells use magic to work. (I might want to do a hp -> mana converter, but alas too much work) 
 Abilities
   *) Flash, blinds your opponent slightly making attacks on you slightly less forth comming, except on monsters who like it.
   *) Magic Missile, of course you need this generic gem.
@@ -17,7 +64,6 @@ Abilities
   *) Toxic is another default one I need to add.
 Spell Casting
   *) Epic Failure (Spell blows up in your face)
-  *) Miss (nothing happens, it sucks when you say your spell out of order or leave the safety on)
   *) Hit (normal thing happens)
   *) Extra umph (bigger and better explosions, but probably hurts you a little)
 

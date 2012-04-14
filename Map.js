@@ -1,7 +1,7 @@
 //0 = open, 1 = blocked, 2 = town
 var mapW;
 var mapH;
-var map;
+var map;//TODO: Redesign the map to be about a 1/2 or 1/4th of the characters footprint, so then I can generate it in a more interesting fashion. 
 var tile = {
 	Open: {
 		id: 0,
@@ -78,8 +78,34 @@ function move() {
 		break;	
 	}	
 	if (map[loc.y][loc.x] == tile.TallGrass) {
-		if (Math.floor(Math.random()*11) < 2) {// 10%
+		if (Math.rand(100) < battleChance) {
 			randomBattle();
 		}
 	}
+}
+
+function renderMap() {
+	var xoff = loc.x * 64 - 200 + 32;
+	var yoff = loc.y * 64 - 150 + 32;
+	for (var y = 0; y < mapH; y++) {
+		for (var x = 0; x < mapW; x++) {
+			if (map[y][x].top == true) {
+				renderImage(64, tile.Open.x, tile.Open.y, x*64-xoff, y*64-yoff);	
+			}
+			renderImage(64, map[y][x].x, map[y][x].y, x*64-xoff, y*64-yoff);
+		}
+	}	
+}
+function renderMapNew() {
+	var size = 64;
+	var xoff = loc.x * size - 200 + size/2;
+	var yoff = loc.y * size - 150 + size/2;
+	for (var y = 0; y < mapH; y++) {
+		for (var x = 0; x < mapW; x++) {
+			if (map[y][x].top == true) {
+				renderImage(size, tile.Open.x, tile.Open.y, x*size-xoff, y*size-yoff);	
+			}
+			renderImage(size, map[y][x].x, map[y][x].y, x*size-xoff, y*size-yoff);
+		}
+	}	
 }

@@ -26,7 +26,7 @@ function handleTown() {
 					case 2: itemPopulate(item.type.Armor); break;
 					case 3: itemPopulate(item.type.Helm); break; //TODO: Useless?
 				}
-				menuState = 1;
+				menuState = menuPointer+1;
 				menuPointer = 0;
 			break;
 		}
@@ -52,7 +52,7 @@ function handleStore() {
 			}
 		break;
 		case input.Cancel:
-			//menuPointer = menuState-1;
+			menuPointer = menuState - 1;
 			menuState = 0;
 			itemListTop = 0;
 		break;

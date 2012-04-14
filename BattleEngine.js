@@ -35,8 +35,8 @@ function handleBattle() {
 			if (hero.nextTurn <= 0) {
 				switch (menuPointer) {
 					case 0: entity.Attack(hero, monster); break;
-					case 1: entity.Magic(0, hero, monster); break;
-					case 2: entity.Heal(50, hero); break;
+					case 1: entity.Magic(0, hero, monster); break;//TODO: Open up a magic menu
+					case 2: entity.Heal(50, hero); break;//TODO: Open up an item menu
 					case 3: entity.Run(); break;	
 				};
 				hero.nextTurn = 30;

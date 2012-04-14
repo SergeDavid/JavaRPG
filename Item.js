@@ -14,7 +14,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		cost : 10,//How much gold it takes to buy
 		sell : 5,//How much gold it gives for selling
 		total : 3,//Inventory count
-		effect : {health : 50}
+		effect : {health : 10}
 	},
 	1 : {
 		name : "H-Potion",
@@ -24,7 +24,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		cost : 40,
 		sell : 20,
 		total : 1,
-		effect : {health : 100, mana : 20, str : 5}
+		effect : {health : 25, mana : 20, str : 5}
 	},
 	2 : {
 		name : "M-Potion",
@@ -34,7 +34,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		cost : 80,
 		sell : 40,
 		total : 2,
-		effect : {health : 200}
+		effect : {health : 50}
 	},
 	3 : {
 		name : "Elixar",
@@ -54,7 +54,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		cost : 25,
 		sell : 15,
 		total : 0,
-		effect : {mana : 25}
+		effect : {mana : 30}
 	},
 	5 : {
 		name : "M-Elixar",
@@ -64,7 +64,7 @@ var items = {//TODO: Work on this so that I can handle many items such as drain 
 		cost : 25,
 		sell : 15,
 		total : 1,
-		effect : {mana : 25}
+		effect : {mana : 40}
 	},
 	6 : {
 		name : "Dagger",
@@ -143,7 +143,11 @@ item.use = function (id) {
 	if (items[id].target == item.target.Caster && items[id].total > 0) {
 		items[id].total--;
 		item.effect(items[id].effect, hero);
-	}	
+		if (items[id].total == 0) {
+			inventoryPopulate(item.type.Item);
+			if (menuPointer > 0) {menuPointer--;}
+		}
+	}
 }
 item.battleUse = function (id, e1, e2) {
 	if (items[id].total > 0 || e1 instanceof monster) {
@@ -158,7 +162,7 @@ item.battleUse = function (id, e1, e2) {
 		}
 	}	
 }
-item.effect = function (effects, entity) {
+item.effect = function (effects, entity) {//Applies item effects (from item type items) to the chosen entity (+10 hp, -5 mana, etc.)
 	for (eff in effects) {
 		debugPush("item:  " + eff + " = " + effects[eff]);
 		switch (eff) {
@@ -167,15 +171,32 @@ item.effect = function (effects, entity) {
 			case "hurt": entity.Hurt(effects[eff],entity); break;
 			default: debugPush("Item Effect " + eff + " not found."); break;
 		}
-	}	
+	}
 }
 item.buy = function (i) {
 	if (i.total < 99 && i.cost <= hero.gold) {
 		hero.gold -= i.cost; i.total++;
-	}	
+	}
 }
 item.sell = function (i) {
 	if (i.total > 0) {
 		hero.gold += i.sell; i.total--;
-	}	
+	}
+}
+item.effectInfo = function (id, x, y) {
+	for (var eff in items[id].effect) {//TODO: Randomize it so that when there are more then one effect it will loop through them based on gameTick
+		var msg;
+		switch (eff) {
+			case "health" : 
+				msg = (hero.health+items[id].effect[eff] < hero.maxHealth) ? hero.health + " -> " + (hero.health+items[id].effect[eff])*1 : hero.health + " -> " + hero.maxHealth; 
+				ctx.fillText("x" + items[id].total + "  Health: " + msg, x, y);
+			break;
+			case "mana" : 
+				msg = (hero.mana+items[id].effect[eff] < hero.maxMana) ? hero.mana + " -> " + (hero.mana+items[id].effect[eff])*1 : hero.mana + " -> " + hero.maxMana; 
+				ctx.fillText("x" + items[id].total + "  Mana: " + msg, x, y);
+			break;
+		
+		}
+		break;
+	}
 }
