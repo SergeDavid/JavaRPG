@@ -33,6 +33,7 @@ var magic = {
 };
 
 entity.Heal = function (dmg, e) {//Refills an entities health (doesn't go above max)
+	if (e === hero) {gameInfo.heals++;}
 	e.health+=dmg;
 	if (e.health > e.maxHealth) {
 		e.health = e.maxHealth;
@@ -57,12 +58,24 @@ entity.Attack = function (e1, e2) {//Attacks an enemy, has a small chance of doi
 }
 entity.Magic = function (magic, e1, e2) {//Uses a magic spell (id) from (e1) to (e2), will only effect e1 if target = caster
 	if (e1.mana >= magic.cost) {
+		//TODO: Change this to use magic effects (heal, haste, slow, etc) but backfire always hurts like overpowered
+		//Overpowered just increases the effectiveness so an overpowered haste could make you attack from 2 times per enemy turn to 6 or so.
+		/*if (backfire) {
+			if (e1 == hero) {gameInfo.magicBackfires++;}
+			entity.Hurt(magic.power*0.8, e1);//80% damage to self	
+		}
+		else if (overpowered) {
+			entity.Hurt(magic.power*0.5, e1);//50% damage to self
+			entity.Hurt(magic.power*2, e2);//200% damage to enemy
+		}
+		*/
 		e1.mana-=magic.cost;	
 		entity.Hurt(magic.power, e2);
 	}
 }
 entity.Run = function () {//Be a pansy and run away from battle
 	gameState = state.World;
+	gameInfo.runs++;
 }
 entity.Hurt = function (dmg, e) {//Deals damage (dmg) to entity (e), will probably have to move dexterity to attack/magic
 	if (dmg < 1) {debugAlert("Blocked!");}
@@ -91,6 +104,7 @@ function equipName(id) {
 function lootCorpse(e) {
 	hero.gold += e.gold;
 	hero.exp += e.exp;
+	gameInfo.kills++;
 	if (hero.exp >= hero.level*10) {
 		while (hero.exp >= hero.level*expMultiplier) {
 			hero.exp -= hero.level*expMultiplier;

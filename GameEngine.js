@@ -59,9 +59,10 @@ var battleChance = 20;//% of chance you'll get into a battle
 
 var hero = new Object();
 var monster = new Object();
-var gameinfo = {//Stores a lot of fun wibbly wobbly timey whimey shinanigans
+var gameInfo = {//Stores a lot of fun wibbly wobbly timey whimey shinanigans
 	startTime:0,//Tracks when you started the game and lost / won.
 	endTime:0,
+	speed:0,//0 = normal, 1 = fast
 	kills:0,//Kill count
 	runs:0,//Pansy count
 	heals:0,//Times healed

@@ -184,19 +184,34 @@ item.sell = function (i) {
 	}
 }
 item.effectInfo = function (id, x, y) {
-	for (var eff in items[id].effect) {//TODO: Randomize it so that when there are more then one effect it will loop through them based on gameTick
-		var msg;
-		switch (eff) {
-			case "health" : 
-				msg = (hero.health+items[id].effect[eff] < hero.maxHealth) ? hero.health + " -> " + (hero.health+items[id].effect[eff])*1 : hero.health + " -> " + hero.maxHealth; 
-				ctx.fillText("x" + items[id].total + "  Health: " + msg, x, y);
-			break;
-			case "mana" : 
-				msg = (hero.mana+items[id].effect[eff] < hero.maxMana) ? hero.mana + " -> " + (hero.mana+items[id].effect[eff])*1 : hero.mana + " -> " + hero.maxMana; 
-				ctx.fillText("x" + items[id].total + "  Mana: " + msg, x, y);
-			break;
-		
-		}
+	if (id == -1) {
+		return ctx.fillText("Bare Fisting", x, y);
+	}
+	switch (items[id].type) {
+		case item.type.Weapon :
+			ctx.fillText("Damage : " + items[id].effect, x, y);
+		break;
+		case item.type.Helm :
+		case item.type.Armor :
+			ctx.fillText("Defense : " + items[id].effect, x, y);
+		break;
+		case item.type.Quest :
+			ctx.fillText("Quest Item", x, y);
+		break;
+		case item.type.Item :
+			for (var eff in items[id].effect) {//TODO: Randomize it so that when there are more then one effect it will loop through them based on gameTick
+				var msg;
+				switch (eff) {
+					case "health" : 
+						msg = (hero.health+items[id].effect[eff] < hero.maxHealth) ? hero.health + " -> " + (hero.health+items[id].effect[eff])*1 : hero.health + " -> " + hero.maxHealth; 
+						ctx.fillText("x" + items[id].total + "  Health: " + msg, x, y);
+					break;
+					case "mana" : 
+						msg = (hero.mana+items[id].effect[eff] < hero.maxMana) ? hero.mana + " -> " + (hero.mana+items[id].effect[eff])*1 : hero.mana + " -> " + hero.maxMana; 
+						ctx.fillText("x" + items[id].total + "  Mana: " + msg, x, y);
+					break;
+				}
+			}
 		break;
 	}
 }

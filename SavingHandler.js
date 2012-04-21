@@ -4,58 +4,72 @@ function saveGame() {
 	var expireDate=new Date();//Experation date of cookie
     expireDate.setMonth(expireDate.getMonth()+1);//Makes the cookie expire 1 month from now
     
-    /*TODO: Create a string containing... (gameVersion, playerName, numberVariales)
-     * gameVersion (0.0.2) //Every version can only use its own save file
-     * playerName (Serge) //I feel like letting people name their character... maybe
-     * numberVariables (hero.level, game.speed, loc.x) //All of the important things that need to be saved 
-     * Things not to save include inputNumber, gameState, menuPointer, etc. (You'll always start in state.World without a menu open)
-     * TODO: Find a way to encode the numberVariables part to make it shrink (255 -> ff kind of thing)
-    */
-    gameData = gameVersion + saveSeperator;
+    gameData = cookieVersion + saveSeperator;
     gameData += saveHero();
     gameData += saveInventory();
+    gameData += saveSettings();
    
     try {
-    	document.cookie = "gameData="+gameData+";path=/;expires="+expireDate.toGMTString();
+    	document.cookie = "gameData="+gameData+"; path=/;expires="+expireDate.toGMTString();
     }
     catch (err) {
-    	//TODO: Error message about not being able to save a cookie.
+    	debugMessage("Unable to save game :" + err);
     }	
 }
 
 function saveHero() {
-	var string = "";
-	string += hero.level + saveSeperator;
-	string += hero.health + saveSeperator;
-	string += hero.maxHealth + saveSeperator;
-	string += hero.mana + saveSeperator;
-	string += hero.maxMana + saveSeperator;
-	string += hero.exp + saveSeperator;
-	string += hero.strength + saveSeperator;
-	string += hero.dexterity + saveSeperator;
-	string += hero.agility + saveSeperator;
-	string += hero.ap + saveSeperator;
-	string += hero.gold + saveSeperator;
+	var str = "";
+	str += hero.level + saveSeperator;
+	str += hero.health + saveSeperator;
+	str += hero.maxHealth + saveSeperator;
+	str += hero.mana + saveSeperator;
+	str += hero.maxMana + saveSeperator;
+	str += hero.exp + saveSeperator;
+	str += hero.strength + saveSeperator;
+	str += hero.dexterity + saveSeperator;
+	str += hero.agility + saveSeperator;
+	str += hero.ap + saveSeperator;
+	str += hero.gold + saveSeperator;
 	
-	string += loc.x + saveSeperator;
-	string += loc.y + saveSeperator;
-	return string;
+	str += loc.x + saveSeperator;
+	str += loc.y + saveSeperator;
+	return str;
+	//TODO: Save the players map location (starting level, 2nd level, etc)
+	//And save where the player exitted out of (start level -> cave)
+	//When randomly generating the worlds when continuing a game, this is where the player will spawn at
+	//Or I could just save all the world data, but that might become a very large cookie
 }
 
 function saveInventory() {
-	var string = "";
-	/*for (int i = 0; i < items.size(); i++) {
-		string += items[0].id + saveSeperator;
-		string += items[0].quantity + saveSeperator;
-	}*/
-	return string;
+	var str = "";
+	for (var i = 0; i < items.length; i++) {
+		str += items[i].id + saveSeperator;
+		str += items[i].quantity + saveSeperator;
+	}
+	return str;
+}
+
+function saveSettings() {
+	var str = "";
+	str += gameInfo.startTime + saveSeperator;
+	str += gameInfo.speed + saveSeperator;
+	str += gameInfo.kills + saveSeperator;
+	str += gameInfo.runs + saveSeperator;
+	str += gameInfo.heals + saveSeperator;
+	str += gameInfo.magicBackfires;
+	return str;
+	//TODO: I also need to save boss progress here along with optional bosses.
 }
 
 function loadGame() {
-	if (cookieVersion == cookieVersion) {
-		//TODO: Transfer the strings data into the different variables.
-	}
+	var cocky = document.cookie.split('; ');//Splits the cookie up
+	cocky = cocky[3].split("=");//Cheap way of grabbing the gameData part
+	if (cocky[0] =! "gameData") {debugAlert("No Save Found!");}
 	else {
-		//TODO Save File is broken.
+		cocky = cocky[1].split(",");
+		if (cocky[0] != cookieVersion) {debugAlert("Save Corrupted!");}	
+		else {
+			debugAlert("I can't let you do that Dave.");
+		}
 	}
 }

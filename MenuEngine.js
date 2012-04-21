@@ -25,7 +25,7 @@ function handleMenu() {
 				menuPointer = menuState;
 				menuState = menues.Menu.Player;
 			}
-			else {gameState = state.World; menuPointer = 0;} 
+			else {gameState = state.World; menuPointer = 0; menuState = 0;} 
 		break;
 		case input.Up : 
 			switch (menuState) {
@@ -48,6 +48,9 @@ function handleMenu() {
 				case menues.Menu.Inventory : 
 					if (menuPointer < itemLength-1) {menuPointer++;} 
 					if (itemListTop + itemListTotal < itemList.length && itemListTop < menuPointer - 5) {itemListTop++;}
+				break;
+				case menues.Menu.Settings :
+					if (menuPointer < 3) {menuPointer++;}
 				break;
 			}
 		break;
@@ -77,6 +80,14 @@ function handleMenu() {
 				break;
 				case menues.Menu.Inventory: 
 					item.use(itemList[menuPointer].id);
+				break;
+				case menues.Menu.Settings:
+					switch (menuPointer) {
+						case 0: saveGame(); break;
+						case 1: loadGame(); break;
+						case 2: gameInfo.speed = 1; break;
+						case 3: gameInfo.speed = 0; break;
+					}
 				break;
 				case menues.Menu.EquipWep:
 					if (menuPointer == 0) {hero.wep = 0;menuState = 0;menuPointer = 3;}
@@ -252,13 +263,30 @@ function renderMenuEquipped(x, y, w) {
 }
 
 function renderGameSettings(x, y) {
+	selectedColor(0); 
+	ctx.fillRect(x+20, y+22, 80, 20);
+	selectedColor(1); 
+	ctx.fillRect(x+20, y+46, 80, 20);
+	selectedColor(2); 
+	ctx.fillRect(x+20, y+94, 80, 20);
+	selectedColor(3); 
+	ctx.fillRect(x+20, y+118, 80, 20);
+	
 	ctx.fillStyle = color.Text;
+	ctx.font = font.Medium;
 	ctx.fillText("Save Game", x, y);	
-	ctx.fillText("Save", x+40, y+20);	
-	ctx.fillText("Load", x+40, y+40);	
-	ctx.fillText("Battle Speed", x, y+60);	
-	ctx.fillText("Fast", x+40, y+80);	
-	ctx.fillText("Slow", x+40, y+100);	
+	ctx.fillText("Game Speed", x, y+72);
+	ctx.font = font.Small;
+	ctx.fillText("Save", x+36, y+24);	
+	ctx.fillText("Load", x+36, y+48);		
+	ctx.fillText("Fast", x+36, y+96);	
+	ctx.fillText("Slow", x+36, y+120);
+	
+	ctx.fillText("Total Kills : " + gameInfo.kills, x+140, y);
+	ctx.fillText("Being A Pansy : " + gameInfo.runs, x+140, y+1*24);
+	ctx.fillText("Total Heals : " + gameInfo.heals, x+140, y+2*24);
+	ctx.fillText("Magic backfires : " + gameInfo.magicBackfires, x+140, y+3*24);
+	ctx.fillText("Magic backfires : " + gameInfo.magicBackfires, x+140, y+4*24);
 	/* TODO: Include more options such as difficulty setting
 	 * Also I want to display something on the right hand like monsters killed, etc.
 	 */
